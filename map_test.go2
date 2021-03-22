@@ -1,0 +1,84 @@
+package composer
+
+import (
+	"reflect"
+	"strconv"
+	"strings"
+	"testing"
+)
+
+type TestCase struct {
+	description string
+	input       interface{}
+	output      interface{}
+	expected    interface{}
+}
+
+type Element1 struct {
+	Key   string
+	Value string
+}
+
+type Element2 struct {
+	Token string
+}
+
+func TestMap(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should map over a slice of ints",
+			output:      Map([]int{1, 2, 3}, func(v int) int { return v * 2 }),
+			expected:    []int{2, 4, 6},
+		},
+		{
+			description: "It should map over a slice of strings",
+			output:      Map([]string{"Test1", "Test2", "Test3"}, strings.ToLower),
+			expected:    []string{"test1", "test2", "test3"},
+		},
+		{
+			description: "It should map over a slice of structs",
+			output: Map([]Element1{
+				{
+					Key:   "k1",
+					Value: "v1",
+				},
+				{
+					Key:   "k2",
+					Value: "v2",
+				},
+			}, func(v Element1) Element2 { return Element2{Token: v.Key + "-" + v.Value} }),
+			expected: []Element2{
+				{
+					Token: "k1-v1",
+				},
+				{
+					Token: "k2-v2",
+				},
+			},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestMapIndexed(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should map over a slice of strings and access the index",
+			output:      MapIndexed([]string{"test", "test", "test"}, func(v string, i int, l []string) string { return v + strconv.Itoa(i) }),
+			expected:    []string{"test0", "test1", "test2"},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}

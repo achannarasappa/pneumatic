@@ -1,0 +1,48 @@
+package composer
+
+type Iterator [TIn any, TOut any]func(TIn) TOut
+
+type IteratorIndexed [TIn any, TOut any]func(TIn, int, []TIn) TOut
+
+// Map applies an iterator function to each element in a slice and returns a slice with the new elements
+//
+// Parameters
+//
+//  • elements: slice of elements
+//  • iterator: function that's applied to each element
+//
+// Return Value
+//
+//  • elements: slice of elements with the iterator applied
+//
+// Examples
+//
+func Map[TIn any, TOut any](slice []TIn, iterator Iterator[TIn, TOut]) []TOut {
+	out := make([]TOut, len(slice))
+	for i, v := range slice {
+		out[i] = iterator(v)
+	}
+	return out
+}
+
+// MapIndexed is the same as Map but also makes the index and input elements available to the iterator function
+//
+// Parameters
+//
+//  • elements: slice of elements
+//  • iterator: function that's applied to each element
+//
+// Return Value
+//
+//  • elements: slice of elements with the iterator applied
+//
+// Examples
+//
+func MapIndexed[TIn any, TOut any](slice []TIn, iterator IteratorIndexed[TIn, TOut]) []TOut {
+	out := make([]TOut, len(slice))
+	for i, v := range slice {
+		out[i] = iterator(v, i, slice)
+	}
+	return out
+}
+
