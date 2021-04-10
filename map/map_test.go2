@@ -28,17 +28,17 @@ func TestMap(t *testing.T) {
 	tests := []TestCase{
 		{
 			description: "It should map over a slice of ints",
-			output:      Map([]int{1, 2, 3}, func(v int) int { return v * 2 }),
+			output:      Map(func(v int) int { return v * 2 }, []int{1, 2, 3}),
 			expected:    []int{2, 4, 6},
 		},
 		{
 			description: "It should map over a slice of strings",
-			output:      Map([]string{"Test1", "Test2", "Test3"}, strings.ToLower),
+			output:      Map(strings.ToLower, []string{"Test1", "Test2", "Test3"}),
 			expected:    []string{"test1", "test2", "test3"},
 		},
 		{
 			description: "It should map over a slice of structs",
-			output: Map([]Element1{
+			output: Map(func(v Element1) Element2 { return Element2{Token: v.Key + "-" + v.Value} }, []Element1{
 				{
 					Key:   "k1",
 					Value: "v1",
@@ -47,7 +47,7 @@ func TestMap(t *testing.T) {
 					Key:   "k2",
 					Value: "v2",
 				},
-			}, func(v Element1) Element2 { return Element2{Token: v.Key + "-" + v.Value} }),
+			}),
 			expected: []Element2{
 				{
 					Token: "k1-v1",
@@ -71,7 +71,7 @@ func TestMapIndexed(t *testing.T) {
 	tests := []TestCase{
 		{
 			description: "It should map over a slice of strings and access the index",
-			output:      MapIndexed([]string{"test", "test", "test"}, func(v string, i int, l []string) string { return v + strconv.Itoa(i) }),
+			output:      MapIndexed(func(v string, i int, l []string) string { return v + strconv.Itoa(i) }, []string{"test", "test", "test"}),
 			expected:    []string{"test0", "test1", "test2"},
 		},
 	}

@@ -8,16 +8,16 @@ type IteratorIndexed [TIn any, TOut any]func(TIn, int, []TIn) TOut
 //
 // Parameters
 //
-//  • slice: list of elements
 //  • iterator: function that's applied to each element
+//  • data: list of elements
 //
 // Return Value
 //
-//  • slice: list of elements with the iterator applied
+//  • data: list of elements with the iterator applied
 //
-func Map[TIn any, TOut any](slice []TIn, iterator Iterator[TIn, TOut]) []TOut {
-	out := make([]TOut, len(slice))
-	for i, v := range slice {
+func Map[TIn any, TOut any](iterator Iterator[TIn, TOut], data []TIn) []TOut {
+	out := make([]TOut, len(data))
+	for i, v := range data {
 		out[i] = iterator(v)
 	}
 	return out
@@ -28,17 +28,17 @@ func Map[TIn any, TOut any](slice []TIn, iterator Iterator[TIn, TOut]) []TOut {
 //
 // Parameters
 //
-//  • slice: list of elements
 //  • iterator: function that's applied to each element
+//  • data: list of elements
 //
 // Return Value
 //
-//  • slice: list of elements with the iterator applied
+//  • data: list of elements with the iterator applied
 //
-func MapIndexed[TIn any, TOut any](slice []TIn, iterator IteratorIndexed[TIn, TOut]) []TOut {
-	out := make([]TOut, len(slice))
-	for i, v := range slice {
-		out[i] = iterator(v, i, slice)
+func MapIndexed[TIn any, TOut any](iterator IteratorIndexed[TIn, TOut], data []TIn) []TOut {
+	out := make([]TOut, len(data))
+	for i, v := range data {
+		out[i] = iterator(v, i, data)
 	}
 	return out
 }
