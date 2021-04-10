@@ -1,8 +1,10 @@
-package compose
+package compose_test
 
 import (
 	"reflect"
 	"testing"
+	
+	"github.com/achannarasappa/pneumatic/compose"
 )
 
 type TestCase struct {
@@ -27,17 +29,17 @@ func TestCompose(t *testing.T) {
 	tests := []TestCase{
 		{
 			description: "It should compose 2 functions together with a 1 argument to the first function",
-			output:      Compose2[int, int, int](fn0, fn1)(1),
+			output:      compose.Compose2[int, int, int](fn0, fn1)(1),
 			expected:    4,
 		},
 		{
 			description: "It should compose 3 functions together with a 1 argument to the first function",
-			output:      Compose3[int, int, int, int](fn0, fn1, fn2)(1),
+			output:      compose.Compose3[int, int, int, int](fn0, fn1, fn2)(1),
 			expected:    7,
 		},
 		{
 			description: "It should compose 4 functions together with a 1 argument to the first function",
-			output:      Compose4[int, int, int, int, int](fn0, fn1, fn2, fn0)(1),
+			output:      compose.Compose4[int, int, int, int, int](fn0, fn1, fn2, fn0)(1),
 			expected:    8,
 		},
 	}
