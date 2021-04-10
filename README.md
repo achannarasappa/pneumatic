@@ -1,10 +1,17 @@
 # pneumatic
 
+Pneumatic is a functional library for Go that uses Go 1.18 generics
+
+
+* Utility libraries libraries in Go rely on [type assertions](https://golang.org/ref/spec#Type_assertions) or [reflection](https://golang.org/pkg/reflect/) which can lead to panics at runtime and other unexpected behavior
+
 ## Usage
 
 ```sh
-go tool go2go translate ./**/*.go2 && go tool go2go run main.go2
+go get github.com/achannarasappa/pneumatic
 ```
+
+TBD example
 
 ## Development
 
@@ -39,23 +46,28 @@ go2go [setup instructions](https://go.googlesource.com/go/+/refs/heads/dev.go2go
 
 ### Testing
 
+Example script that demonstrates some of what is possible with `pneumatic`:
+```sh
+go tool go2go translate ./**/*.go2 && go tool go2go run main.go2
+```
+
+Run automated tests:
 ```sh
 find . -maxdepth 1 -type d \( ! -name .\* \) -exec bash -c "cd '{}' && go tool go2go test" \;
 ```
 
-## Status
+## Development Status
 
-`pneumatic` is for experimental purposes only since the `go2go` toolchain is experimental itself and many features found in the latest stable version of go are not implemented or do not work as expected.
+`pneumatic` is for **experimental purposes only** for now
 
-### Known Issues
+The vision is to evolve `pneumatic` to match the latest implementation of Go generics until the final release in Go 1.18. The API is expected to undergo changes until the v1.0.0 release which will coincide with release of Go 1.18.
 
+### Known Tooling Issues
+
+Since the `go2go` toolchain is experimental itself and many features found in the latest stable version of go are not implemented or do not work as expected.
+
+* No interoperability with Go 1.17 or lower
 * Standard recursive test command (`go test ./...`) does not work with go2go
-
-### Future
-
-`pneumatic` will be updated to use the expected beta release of go 1.18 when available sometime in 2021.
-
-The idea is that this library can be evolved as the generics implementation is developed in go 1.18.
 
 ## Background
 
