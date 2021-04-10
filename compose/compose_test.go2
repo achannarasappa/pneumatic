@@ -1,0 +1,50 @@
+package compose
+
+import (
+	"reflect"
+	"testing"
+)
+
+type TestCase struct {
+	description string
+	input       interface{}
+	output      interface{}
+	expected    interface{}
+}
+
+func TestCompose(t *testing.T) {
+
+	fn0 := func(v int) int {
+		return v + 1
+	}
+	fn1 := func(v int) int {
+		return v + 2
+	}
+	fn2 := func(v int) int {
+		return v + 3
+	}
+
+	tests := []TestCase{
+		{
+			description: "It should compose 2 functions together with a 1 argument to the first function",
+			output:      Compose2A1[int, int, int](fn0, fn1)(1),
+			expected:    4,
+		},
+		{
+			description: "It should compose 3 functions together with a 1 argument to the first function",
+			output:      Compose3A1[int, int, int, int](fn0, fn1, fn2)(1),
+			expected:    7,
+		},
+		{
+			description: "It should compose 4 functions together with a 1 argument to the first function",
+			output:      Compose4A1[int, int, int, int, int](fn0, fn1, fn2, fn0)(1),
+			expected:    8,
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}

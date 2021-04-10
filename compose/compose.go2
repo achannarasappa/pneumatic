@@ -1,0 +1,58 @@
+package compose
+
+// Compose applies 2 functions in left to right order and applies 1 argument to the first function
+//
+// Parameters
+//
+//  • fn0: unary function
+//  • fn1: unary function
+//  • x0: argument to the first function
+//
+// Return Value
+//
+//  • result: output value of type T2 after applying each function
+//
+func Compose2A1[A0 any, T1 any, T2 any](fn0 func(A0) T1, fn1 func(T1) T2) func(A0) T2 {
+	return func(x0 A0) T2 {
+		return fn1(fn0(x0))
+	}
+}
+
+// Compose applies 3 functions in left to right order and applies 1 argument to the first function
+//
+// Parameters
+//
+//  • fn0: unary function
+//  • fn1: unary function
+//  • fn2: unary function
+//  • x0: argument to the first function
+//
+// Return Value
+//
+//  • result: output value of type T3 after applying each function
+//
+func Compose3A1[A0 any, T1 any, T2 any, T3 any](fn0 func(A0) T1, fn1 func(T1) T2, fn2 func(T2) T3) func(A0) T3 {
+	return func(x0 A0) T3 {
+		return fn2(fn1(fn0(x0)))
+	}
+}
+
+// Compose applies 4 functions in left to right order and applies 1 argument to the first function
+//
+// Parameters
+//
+//  • fn0: unary function
+//  • fn1: unary function
+//  • fn2: unary function
+//  • fn3: unary function
+//  • x0: argument to the first function
+//
+// Return Value
+//
+//  • result: output value of type T4 after applying each function
+//
+func Compose4A1[A0 any, T1 any, T2 any, T3 any, T4 any](fn0 func(A0) T1, fn1 func(T1) T2, fn2 func(T2) T3, fn3 func(T3) T4) func(A0) T4 {
+	return func(x0 A0) T4 {
+		return fn3(fn2(fn1(fn0(x0))))
+	}
+}
