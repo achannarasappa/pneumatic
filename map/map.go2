@@ -8,12 +8,12 @@ type IteratorIndexed [TIn any, TOut any]func(TIn, int, []TIn) TOut
 //
 // Parameters
 //
-//  • elements: slice of elements
+//  • slice: list of elements
 //  • iterator: function that's applied to each element
 //
 // Return Value
 //
-//  • elements: slice of elements with the iterator applied
+//  • slice: list of elements with the iterator applied
 //
 // Examples
 //
@@ -29,12 +29,12 @@ func Map[TIn any, TOut any](slice []TIn, iterator Iterator[TIn, TOut]) []TOut {
 //
 // Parameters
 //
-//  • elements: slice of elements
+//  • slice: list of elements
 //  • iterator: function that's applied to each element
 //
 // Return Value
 //
-//  • elements: slice of elements with the iterator applied
+//  • slice: list of elements with the iterator applied
 //
 // Examples
 //

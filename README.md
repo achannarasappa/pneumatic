@@ -1,4 +1,4 @@
-# Composer
+# go-compose
 
 ## Setup
 
