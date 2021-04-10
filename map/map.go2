@@ -13,7 +13,7 @@ type IteratorIndexed [TIn any, TOut any]func(TIn, int, []TIn) TOut
 //
 // Return Value
 //
-//  • data: list of elements with the iterator applied
+//  • result: list of elements with the iterator applied
 //
 func Map[TIn any, TOut any](iterator Iterator[TIn, TOut], data []TIn) []TOut {
 	out := make([]TOut, len(data))
@@ -33,7 +33,7 @@ func Map[TIn any, TOut any](iterator Iterator[TIn, TOut], data []TIn) []TOut {
 //
 // Return Value
 //
-//  • data: list of elements with the iterator applied
+//  • result: list of elements with the iterator applied
 //
 func MapIndexed[TIn any, TOut any](iterator IteratorIndexed[TIn, TOut], data []TIn) []TOut {
 	out := make([]TOut, len(data))
