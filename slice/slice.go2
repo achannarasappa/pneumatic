@@ -4,6 +4,8 @@ type Iterator [T0 any, T1 any]func(T0) T1
 
 type IteratorIndexed [T0 any, T1 any]func(T0, int, []T0) T1
 
+type IteratorAccumulator [T0 any, T1 any]func(T1, T0, int) T1
+
 // Map applies an iterator function to each element in a slice and returns a slice with the new elements
 //
 // Parameters
@@ -26,7 +28,6 @@ func Map[T0 any, T1 any](iterator Iterator[T0, T1]) func([]T0) []T1 {
 }
 
 // MapIndexed is the same as Map but also makes the index and input elements available to the iterator function
-// works with slices and maps
 //
 // Parameters
 //
@@ -47,4 +48,23 @@ func MapIndexed[T0 any, T1 any](iterator IteratorIndexed[T0, T1]) func([]T0) []T
 	}
 }
 
-var Test1 = "test"
+// Reduce iterates over a slice and calls the iterator function on each element while passing the accumulator to the next call
+//
+// Parameters
+//
+//  • iterator: function that's applied to each element
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: the list of elements reduced to a single data type
+//
+func Reduce[T0 any, T1 any](iterator IteratorAccumulator[T0, T1]) func([]T0) T1 {
+	return func(data []T0) T1 {
+		var out T1
+		for i, v := range data {
+			out = iterator(out, v, i)
+		}
+		return out
+	}
+}

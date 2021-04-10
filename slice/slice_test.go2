@@ -84,3 +84,20 @@ func TestMapIndexed(t *testing.T) {
 		}
 	}
 }
+
+func TestReduce(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should iterate over a slice of ints and sum them up",
+			output:      s.Reduce(func(acc int, v int, _ int) int { return acc + v })([]int{10, 30, 60}),
+			expected:    100,
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
