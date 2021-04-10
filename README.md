@@ -18,5 +18,5 @@ go tool go2go run *.go2
 ## Testing
 
 ```sh
-go tool go2go test
+find . -maxdepth 1 -type d \( ! -name .\* \) -exec bash -c "cd '{}' && go tool go2go test" \;
 ```
