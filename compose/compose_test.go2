@@ -1,4 +1,4 @@
-package pneumatic
+package compose
 
 import (
 	"reflect"

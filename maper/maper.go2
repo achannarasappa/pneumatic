@@ -1,0 +1,50 @@
+package maper
+
+type Iterator [T0 any, T1 any]func(T0) T1
+
+type IteratorIndexed [T0 any, T1 any]func(T0, int, []T0) T1
+
+// Map applies an iterator function to each element in a slice and returns a slice with the new elements
+//
+// Parameters
+//
+//  • iterator: function that's applied to each element
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: list of elements with the iterator applied
+//
+func Map[T0 any, T1 any](iterator Iterator[T0, T1]) func([]T0) []T1 {
+	return func(data []T0) []T1 {
+		out := make([]T1, len(data))
+		for i, v := range data {
+			out[i] = iterator(v)
+		}
+		return out
+	}
+}
+
+// MapIndexed is the same as Map but also makes the index and input elements available to the iterator function
+// works with slices and maps
+//
+// Parameters
+//
+//  • iterator: function that's applied to each element
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: list of elements with the iterator applied
+//
+func MapIndexed[T0 any, T1 any](iterator IteratorIndexed[T0, T1]) func([]T0) []T1 {
+	return func(data []T0) []T1 {
+		out := make([]T1, len(data))
+		for i, v := range data {
+			out[i] = iterator(v, i, data)
+		}
+		return out
+	}
+}
+
+var Test1 = "test"
