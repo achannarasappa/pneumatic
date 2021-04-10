@@ -1,4 +1,4 @@
-package maper_test
+package slice_test
 
 import (
 	"reflect"

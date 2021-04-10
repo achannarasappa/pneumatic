@@ -1,4 +1,4 @@
-package maper
+package slice
 
 type Iterator [T0 any, T1 any]func(T0) T1
 
