@@ -90,7 +90,7 @@ func TestReduce(t *testing.T) {
 	tests := []TestCase{
 		{
 			description: "It should iterate over a slice of ints and sum them up",
-			output:      s.Reduce(func(acc int, v int, _ int) int { return acc + v })([]int{10, 30, 60}),
+			output:      s.Reduce(func(acc int, v int, _ int) int { return acc + v }, 0)([]int{10, 30, 60}),
 			expected:    100,
 		},
 	}

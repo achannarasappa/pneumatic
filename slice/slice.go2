@@ -1,3 +1,8 @@
+// Functions that operate on slices
+//
+// Usage Notes
+//
+//  • arity - all functions have a arity of two wherein the function is prepared with all arguments in the first call and the input data is applied in the second call
 package slice
 
 type Iterator [T0 any, T1 any]func(T0) T1
@@ -59,9 +64,9 @@ func MapIndexed[T0 any, T1 any](iterator IteratorIndexed[T0, T1]) func([]T0) []T
 //
 //  • result: the list of elements reduced to a single data type
 //
-func Reduce[T0 any, T1 any](iterator IteratorAccumulator[T0, T1]) func([]T0) T1 {
+func Reduce[T0 any, T1 any](iterator IteratorAccumulator[T0, T1], initialAcc T1) func([]T0) T1 {
 	return func(data []T0) T1 {
-		var out T1
+		out := initialAcc
 		for i, v := range data {
 			out = iterator(out, v, i)
 		}
