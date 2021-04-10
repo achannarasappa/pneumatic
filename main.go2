@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/achannarasappa/pneumatic/compose"
-	"github.com/achannarasappa/pneumatic/maper"
+	"github.com/achannarasappa/pneumatic/function"
+	"github.com/achannarasappa/pneumatic/slice"
 )
 
 type Quote struct {
@@ -33,19 +33,19 @@ var quotes = []Quote{
 
 func main() {
 
-	fn0 := maper.Map(func(v Quote) Quote {
+	fn0 := slice.Map(func(v Quote) Quote {
 		v.Price += 1.0
 		return v
 	})
 
-	fn2 := maper.Map(func(q Quote) Token {
+	fn2 := slice.Map(func(q Quote) Token {
 		return Token{
 			ID:    q.Currency + "-" + q.Symbol,
 			Price: q.Price,
 		}
 	})
 
-	out := compose.Compose3[[]Quote, []Quote, []Quote, []Token](fn0, fn0, fn2)(quotes)
+	out := function.Compose3[[]Quote, []Quote, []Quote, []Token](fn0, fn0, fn2)(quotes)
 
 	fmt.Printf("%+v\n", fn0(quotes))
 	fmt.Printf("%+v\n", out)

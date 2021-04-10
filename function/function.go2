@@ -1,4 +1,4 @@
-package compose
+package function
 
 // Compose applies 2 functions in left to right order and applies 1 argument to the first function
 //
