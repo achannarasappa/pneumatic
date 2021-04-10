@@ -1,0 +1,53 @@
+package main
+
+import (
+	"fmt"
+
+	"github.com/achannarasappa/pneumatic/compose"
+	"github.com/achannarasappa/pneumatic/maper"
+)
+
+type Quote struct {
+	Symbol   string
+	Currency string
+	Price    float64
+}
+
+type Token struct {
+	ID    string
+	Price float64
+}
+
+var quotes = []Quote{
+	{
+		Symbol:   "ABC",
+		Currency: "USD",
+		Price:    1.0,
+	},
+	{
+		Symbol:   "XYZ",
+		Currency: "USD",
+		Price:    2.0,
+	},
+}
+
+func main() {
+
+	fn0 := maper.Map(func(v Quote) Quote {
+		v.Price += 1.0
+		return v
+	})
+
+	fn2 := maper.Map(func(q Quote) Token {
+		return Token{
+			ID:    q.Currency + "-" + q.Symbol,
+			Price: q.Price,
+		}
+	})
+
+	out := compose.Compose3[[]Quote, []Quote, []Quote, []Token](fn0, fn0, fn2)(quotes)
+
+	fmt.Printf("%+v\n", fn0(quotes))
+	fmt.Printf("%+v\n", out)
+	fmt.Printf("hello, world\n")
+}
