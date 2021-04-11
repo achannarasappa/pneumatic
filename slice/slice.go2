@@ -113,3 +113,26 @@ func Reject[TValue any](predicate func(TValue) bool) func([]TValue) []TValue {
 		return out
 	}
 }
+
+// GroupBy creates a map where the key is a group identifier and the value is a slice with the elements that have the same identifer
+//
+// Parameters
+//
+//  • grouper: function receives each element and returns a string identifier for the element
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: map of elements grouped by identifiers
+//
+func GroupBy[TValue any](grouper func(TValue) string) func([]TValue) map[string][]TValue {
+	return func(data []TValue) map[string][]TValue{
+		var id string
+		out := make(map[string][]TValue)
+		for _, v := range data {
+			id = grouper(v)
+			out[id] = append(out[id], v)
+		}
+		return out
+	}
+}

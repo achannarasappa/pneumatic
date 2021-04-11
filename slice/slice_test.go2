@@ -135,3 +135,34 @@ func TestReject(t *testing.T) {
 		}
 	}
 }
+
+func TestGroupBy(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should group elements into categories",
+			output: s.GroupBy(func(v int) string {
+				if v < 333 {
+					return "low"
+				}
+
+				if v >= 333 && v <= 667 {
+					return "medium"
+				}
+
+				return "high"
+			})([]int{800, 533, 146, 932, 624}),
+			expected: map[string][]int{
+				"high":   []int{800, 932},
+				"medium": []int{533, 624},
+				"low":    []int{146},
+			},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
