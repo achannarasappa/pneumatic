@@ -67,3 +67,26 @@ func Reduce[TValue any, TAcc any](iterator func(TAcc, TValue, int) TAcc, initial
 		return out
 	}
 }
+
+// Filter calls the predicate function on each element and removes those elements that do not satisfy the predicate
+//
+// Parameters
+//
+//  • predicate: function that is called against each element
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: list of elements where the predicate is satisfied
+//
+func Filter[TValue any](predicate func(TValue) bool) func([]TValue) []TValue {
+	return func(data []TValue) []TValue {
+		out := make([]TValue, 0)
+		for _, v := range data {
+			if predicate(v) {
+				out = append(out, v)
+			}
+		}
+		return out
+	}
+}
