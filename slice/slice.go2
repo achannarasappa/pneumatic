@@ -137,3 +137,147 @@ func GroupBy[TValue any](grouper func(TValue) string) func([]TValue) map[string]
 		return out
 	}
 }
+
+// Concat combines two slices of the same type together
+//
+// Parameters
+//
+//  • slice: list of elements to concatenate
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: map of elements grouped by identifiers
+//
+func Concat[TValue any](slice []TValue) func([]TValue) []TValue {
+	return func(data []TValue) []TValue{
+		return append(data, slice...)
+	}
+}
+
+// UniqBy returns a slice of only unique values based on a string identifier
+//
+// Parameters
+//
+//  • identify: function that returns a string representation to uniquely identify the element
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: list of unique elements
+//
+func UniqBy[TValue any](identify func(TValue) string) func([]TValue) []TValue {
+	return func(data []TValue) []TValue{
+		var id string
+		out := make([]TValue, 0)
+		identifiers := make(map[string]bool)
+		for _, v := range data {
+			id = identify(v)
+			if _, ok := identifiers[id]; !ok {
+				identifiers[id] = true
+				out = append(out, v)
+			}
+		}
+		return out
+	}
+}
+
+// Drop removes the first n elements from the slice and returns the remaining slice
+//
+// Parameters
+//
+//  • count: number of elements to remove
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice of remaining elements
+//
+func Drop[TValue any](count int) func([]TValue) []TValue {
+	return func(data []TValue) []TValue{
+
+		if count <=0 {
+			return data
+		}
+
+		if count >= len(data) {
+			return make([]TValue, 0)
+		}
+
+		return data[count:]
+	}
+}
+
+// DropLast removes the last n elements from the slice and returns the remaining slice
+//
+// Parameters
+//
+//  • count: number of elements to remove
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice of remaining elements
+//
+func DropLast[TValue any](count int) func([]TValue) []TValue {
+	return func(data []TValue) []TValue{
+
+		if count <=0 {
+			return data
+		}
+
+		data_length := len(data)
+
+		if count >= data_length {
+			return make([]TValue, 0)
+		}
+
+		return data[:(data_length-count)]
+	}
+}
+
+// Take returns the first n elements of the slice
+//
+// Parameters
+//
+//  • count: number of elements to keep
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice of remaining elements
+//
+func Take[TValue any](count int) func([]TValue) []TValue {
+	return func(data []TValue) []TValue{
+
+		if count >= len(data) || count <=0 {
+			return data
+		}
+
+		return data[:count]
+	}
+}
+
+// TakeLast returns the last n elements of the slice
+//
+// Parameters
+//
+//  • count: number of elements to keep
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice of remaining elements
+//
+func TakeLast[TValue any](count int) func([]TValue) []TValue {
+	return func(data []TValue) []TValue{
+
+		data_length := len(data)
+
+		if count >= data_length || count <=0 {
+			return data
+		}
+
+		return data[(data_length-count):]
+	}
+}

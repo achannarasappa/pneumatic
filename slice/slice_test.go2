@@ -166,3 +166,125 @@ func TestGroupBy(t *testing.T) {
 		}
 	}
 }
+
+func TestConcat(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should concatenate two slices",
+			output:      s.Concat([]int{1, 1, 1})([]int{2, 2, 2}),
+			expected:    []int{2, 2, 2, 1, 1, 1},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestUniqBy(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return a slice with only unique elements",
+			output:      s.UniqBy(func(v int) string { return strconv.Itoa(v) })([]int{1, 1, 2, 2, 2, 3}),
+			expected:    []int{1, 2, 3},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestDrop(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return a slice with the first n elements removed",
+			output:      s.Drop[int](3)([]int{1, 1, 2, 2, 2, 3}),
+			expected:    []int{2, 2, 3},
+		},
+		{
+			description: "It should return an empty slice",
+			output:      s.Drop[int](3)([]int{1, 1}),
+			expected:    []int{},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestDropLast(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return a slice with the last n elements removed",
+			output:      s.DropLast[int](1)([]int{1, 9, 9, 6, 4, 0}),
+			expected:    []int{1, 9, 9, 6, 4},
+		},
+		{
+			description: "It should return an empty slice",
+			output:      s.DropLast[int](3)([]int{1, 1}),
+			expected:    []int{},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestTake(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return a slice with the first n elements only",
+			output:      s.Take[int](4)([]int{5, 8, 2, 23, 1, 33}),
+			expected:    []int{5, 8, 2, 23},
+		},
+		{
+			description: "It should return the original slice",
+			output:      s.Take[int](3)([]int{1, 1}),
+			expected:    []int{1, 1},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestTakeLast(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return a slice with the last n elements only",
+			output:      s.TakeLast[int](4)([]int{5, 8, 2, 23, 1, 33}),
+			expected:    []int{2, 23, 1, 33},
+		},
+		{
+			description: "It should return the original slice",
+			output:      s.TakeLast[int](3)([]int{1, 1}),
+			expected:    []int{1, 1},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
