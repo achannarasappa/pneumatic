@@ -52,6 +52,7 @@ func MapIndexed[TValue any, TResult any](iterator func(TValue, int, []TValue) TR
 // Parameters
 //
 //  • iterator: function that's applied to each element
+//  • initialAcc: initial value of the accumulator
 //  • data: list of elements
 //
 // Return Value
