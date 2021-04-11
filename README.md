@@ -55,7 +55,7 @@ find . -maxdepth 1 -type d \( ! -name .\* \) -exec bash -c "cd '{}' && go tool g
 
 ## Development Status
 
-`pneumatic` is for **experimental purposes only** for now
+**Experimental** - this library is for experimental purposes only until a beta Go 1.18 compiler is released
 
 The vision is to evolve `pneumatic` to match the latest implementation of Go generics until the final release in Go 1.18. The API is expected to undergo changes until the v1.0.0 release which will coincide with release of Go 1.18.
 
@@ -76,6 +76,14 @@ There are many utility and functional programming libraries already for Go but t
 * Type safety - when building utility functions in Go <=1.17, developers have the options of making their implementation use case specific or using [type assertions](https://golang.org/ref/spec#Type_assertions) or [reflection](https://golang.org/pkg/reflect/) which can lead to panics at runtime and other unexpected behavior
   * Existing utility libraries typically rely on type assertions which pose a serious risk to any workload that can not tolerate a runtime panic (e.g. production applications)
 * Functional-first - `pneumatic`'s data processing functions all have an arity of two and receive data as the last argument making it simpler to compose together small functions together into larger ones and promote reusability
+
+### Goals
+
+At the current **experimental** phase of the project, the goals are: 
+
+* Validate hypothesis that there is community interest in a Go functional programming library
+* Refine API with community feedback
+* Build a feature set that covers most common use cases and enables development of more specialized use cases
 
 ### Compiler
 
