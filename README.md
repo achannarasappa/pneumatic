@@ -1,9 +1,6 @@
 # pneumatic
 
-Pneumatic is a functional library for Go that uses Go 1.18 generics
-
-
-* Utility libraries libraries in Go rely on [type assertions](https://golang.org/ref/spec#Type_assertions) or [reflection](https://golang.org/pkg/reflect/) which can lead to panics at runtime and other unexpected behavior
+Pneumatic is a type-safe functional library for Go that uses Go 1.18 generics
 
 ## Usage
 
@@ -68,7 +65,18 @@ Since the `go2go` toolchain is experimental itself and many features found in th
 
 * No interoperability with Go 1.17 or lower
 * Standard recursive test command (`go test ./...`) does not work with go2go
+* Third-party libraries do not work out of the box or at all in some cases
 
 ## Background
+
+### Motivation
+
+There are many utility and functional programming libraries already for Go but there's a few areas where pneumatic seeks to make improvements:
+
+* Type safety - when building utility functions in Go <=1.17, developers have the options of making their implementation use case specific or using [type assertions](https://golang.org/ref/spec#Type_assertions) or [reflection](https://golang.org/pkg/reflect/) which can lead to panics at runtime and other unexpected behavior
+  * Existing utility libraries typically rely on type assertions which pose a serious risk to any workload that can not tolerate a runtime panic (e.g. production applications)
+* Functional-first - `pneumatic`'s data processing functions all have an arity of two and receive data as the last argument making it simpler to compose together small functions together into larger ones and promote reusability
+
+### Compiler
 
 `pneumatic` uses an experimental compiler `go2go` which implements the features and contract defined in the [proposal for go generics](https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md). Generics are expected to  released as part of go 1.18 in early 2022. `go2go` may fall behind changes in the proposal but the expectation is that major aspects of the proposal will be retained in the final implementation.
