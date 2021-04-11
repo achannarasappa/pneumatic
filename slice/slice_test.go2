@@ -106,9 +106,26 @@ func TestFilter(t *testing.T) {
 
 	tests := []TestCase{
 		{
-			description: "It should filter out elements that do not satisfy the predicate",
+			description: "It should remove elements that do not satisfy the predicate",
 			output:      s.Filter(func(v int) bool { return v >= 50 })([]int{10, 30, 50, 60, 90, 5}),
 			expected:    []int{50, 60, 90},
+		},
+	}
+
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestReject(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should remove elements that do satisfy the predicate",
+			output:      s.Reject(func(v int) bool { return v >= 50 })([]int{10, 30, 50, 60, 90, 5}),
+			expected:    []int{10, 30, 5},
 		},
 	}
 
