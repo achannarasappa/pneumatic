@@ -5,26 +5,20 @@
 //  • arity - all functions have a arity of two wherein the function is prepared with all arguments in the first call and the input data is applied in the second call
 package slice
 
-type Iterator [T0 any, T1 any]func(T0) T1
-
-type IteratorIndexed [T0 any, T1 any]func(T0, int, []T0) T1
-
-type IteratorAccumulator [T0 any, T1 any]func(T1, T0, int) T1
-
 // Map applies an iterator function to each element in a slice and returns a slice with the new elements
 //
 // Parameters
 //
 //  • iterator: function that's applied to each element
-//  • data: list of elements
+//  • data:     slice of elements
 //
 // Return Value
 //
-//  • result: list of elements with the iterator applied
+//  • result:   slice of elements with the iterator applied
 //
-func Map[T0 any, T1 any](iterator Iterator[T0, T1]) func([]T0) []T1 {
-	return func(data []T0) []T1 {
-		out := make([]T1, len(data))
+func Map[TValue any, TResult any](iterator func(TValue) TResult) func([]TValue) []TResult {
+	return func(data []TValue) []TResult {
+		out := make([]TResult, len(data))
 		for i, v := range data {
 			out[i] = iterator(v)
 		}
@@ -43,9 +37,9 @@ func Map[T0 any, T1 any](iterator Iterator[T0, T1]) func([]T0) []T1 {
 //
 //  • result: list of elements with the iterator applied
 //
-func MapIndexed[T0 any, T1 any](iterator IteratorIndexed[T0, T1]) func([]T0) []T1 {
-	return func(data []T0) []T1 {
-		out := make([]T1, len(data))
+func MapIndexed[TValue any, TResult any](iterator func(TValue, int, []TValue) TResult) func([]TValue) []TResult {
+	return func(data []TValue) []TResult {
+		out := make([]TResult, len(data))
 		for i, v := range data {
 			out[i] = iterator(v, i, data)
 		}
@@ -64,8 +58,8 @@ func MapIndexed[T0 any, T1 any](iterator IteratorIndexed[T0, T1]) func([]T0) []T
 //
 //  • result: the list of elements reduced to a single data type
 //
-func Reduce[T0 any, T1 any](iterator IteratorAccumulator[T0, T1], initialAcc T1) func([]T0) T1 {
-	return func(data []T0) T1 {
+func Reduce[TValue any, TAcc any](iterator func(TAcc, TValue, int) TAcc, initialAcc TAcc) func([]TValue) TAcc {
+	return func(data []TValue) TAcc {
 		out := initialAcc
 		for i, v := range data {
 			out = iterator(out, v, i)
