@@ -5,6 +5,10 @@
 //  • arity - all functions have a arity of two wherein the function is prepared with all arguments in the first call and the input data is applied in the second call
 package slice
 
+import (
+	"sort"
+)
+
 // Map applies an iterator function to each element in a slice and returns a slice with the new elements
 //
 // Parameters
@@ -301,4 +305,29 @@ func Flatten[TValue any](data [][]TValue) []TValue {
 	}
 
 	return out
+}
+
+// SortBy applies a comparator against each element to sort the slice
+//
+// Parameters
+//
+//  • comparator: function used to compare two elements in a slice
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: sorted slice of elements
+//
+func SortBy[TValue any](comparator func(TValue, TValue) bool) func([]TValue) []TValue {
+
+	return func(data []TValue) []TValue {
+
+		out := data
+
+		sort.SliceStable(out, func(prevIndex int, nextIndex int) bool {
+			return comparator(data[prevIndex], data[nextIndex])
+		})
+		
+		return out
+	}
 }
