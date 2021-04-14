@@ -331,3 +331,24 @@ func SortBy[TValue any](comparator func(TValue, TValue) bool) func([]TValue) []T
 		return out
 	}
 }
+
+// Append returns the slice with the additional element added to the end
+//
+// Parameters
+//
+//  • element: element to add
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice of elements with the additional element
+//
+func Append[TValue any](element TValue) func([]TValue) []TValue {
+
+	return func(data []TValue) []TValue {
+
+		out := append(data, element)
+		
+		return out
+	}
+}
