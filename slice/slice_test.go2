@@ -287,3 +287,16 @@ func TestAppend(t *testing.T) {
 
 	outputTestResult(tests, t)
 }
+
+func TestPrepend(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should add an element to the end of the slice",
+			output:      s.Prepend(1678)([]int{100, 1}),
+			expected:    []int{1678, 100, 1},
+		},
+	}
+
+	outputTestResult(tests, t)
+}

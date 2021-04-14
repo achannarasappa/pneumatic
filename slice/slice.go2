@@ -352,3 +352,24 @@ func Append[TValue any](element TValue) func([]TValue) []TValue {
 		return out
 	}
 }
+
+// Prepend returns the slice with the additional element added to the beggining
+//
+// Parameters
+//
+//  • element: element to add
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice of elements with the additional element
+//
+func Prepend[TValue any](element TValue) func([]TValue) []TValue {
+
+	return func(data []TValue) []TValue {
+
+		out := append([]TValue{element}, data...)
+		
+		return out
+	}
+}
