@@ -441,3 +441,39 @@ func Head[TValue any](data []TValue) TValue {
 
 	return out
 }
+
+// SplitEvery returns first element of a slice
+//
+// Parameters
+//
+//  • size: number of elements per chunk
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice with sub-slices of specified length
+func SplitEvery[TValue any](size int) func([]TValue) [][]TValue {
+	return func(data []TValue) [][]TValue {
+
+		if size <= 0 || len(data) <= 1 {
+			return [][]TValue{data}
+		}
+
+		out := make([][]TValue, 0)
+		currentGroup := make([]TValue, 0)
+		for i, v := range data {
+			if len(currentGroup) < size {
+				currentGroup = append(currentGroup, v)
+			} else {
+				out = append(out, currentGroup)
+				currentGroup = []TValue{v}
+			}
+
+			if (i + 1) >= len(data) {
+				out = append(out, currentGroup)
+			}
+		}
+
+		return out
+	}
+}
