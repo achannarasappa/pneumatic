@@ -399,3 +399,45 @@ func Partition[TValue any](predicate func(TValue) bool) func([]TValue) [][]TValu
 		return [][]TValue{outTrue, outFalse}
 	}
 }
+
+// Tail returns the input slice with all elements except the first element
+//
+// Parameters
+//
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice without the first element 
+//
+func Tail[TValue any](data []TValue) []TValue {
+
+	if len(data) <= 1 {
+		return []TValue{}
+	}
+
+	return data[1:]
+}
+
+// Head returns first element of a slice
+//
+// Parameters
+//
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: first element in a slice
+//
+func Head[TValue any](data []TValue) TValue {
+
+	var out TValue
+
+	if len(data) <= 0 {
+		return out
+	}
+
+	out = data[:1][0]
+
+	return out
+}

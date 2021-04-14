@@ -313,3 +313,49 @@ func TestPartition(t *testing.T) {
 
 	outputTestResult(tests, t)
 }
+
+func TestTail(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return all elements but the first",
+			output:      s.Tail([]int{1, 2, 3, 4, 5, 6}),
+			expected:    []int{2, 3, 4, 5, 6},
+		},
+		{
+			description: "It should return an empty slice",
+			output:      s.Tail([]int{1}),
+			expected:    []int{},
+		},
+		{
+			description: "It should return an empty slice",
+			output:      s.Tail([]int{}),
+			expected:    []int{},
+		},
+	}
+
+	outputTestResult(tests, t)
+}
+
+func TestHead(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return all elements but the first",
+			output:      s.Head([]int{1, 2, 3, 4, 5, 6}),
+			expected:    1,
+		},
+		{
+			description: "It should return an empty slice",
+			output:      s.Head([]int{1}),
+			expected:    1,
+		},
+		{
+			description: "It should return an empty slice",
+			output:      s.Head([]int{}),
+			expected:    0,
+		},
+	}
+
+	outputTestResult(tests, t)
+}
