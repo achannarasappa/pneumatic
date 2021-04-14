@@ -25,6 +25,14 @@ type Element2 struct {
 	Token string
 }
 
+func outputTestResult(tests []TestCase, t *testing.T) {
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
 func TestMap(t *testing.T) {
 
 	tests := []TestCase{
@@ -61,11 +69,7 @@ func TestMap(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestMapIndexed(t *testing.T) {
@@ -78,11 +82,7 @@ func TestMapIndexed(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestReduce(t *testing.T) {
@@ -95,11 +95,7 @@ func TestReduce(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestFilter(t *testing.T) {
@@ -112,11 +108,7 @@ func TestFilter(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestReject(t *testing.T) {
@@ -129,11 +121,7 @@ func TestReject(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestGroupBy(t *testing.T) {
@@ -160,11 +148,7 @@ func TestGroupBy(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestConcat(t *testing.T) {
@@ -177,11 +161,7 @@ func TestConcat(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestUniqBy(t *testing.T) {
@@ -194,11 +174,7 @@ func TestUniqBy(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestDrop(t *testing.T) {
@@ -216,11 +192,7 @@ func TestDrop(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestDropLast(t *testing.T) {
@@ -238,11 +210,7 @@ func TestDropLast(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestTake(t *testing.T) {
@@ -260,11 +228,7 @@ func TestTake(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
 
 func TestTakeLast(t *testing.T) {
@@ -282,9 +246,5 @@ func TestTakeLast(t *testing.T) {
 		},
 	}
 
-	for _, test := range tests {
-		if !reflect.DeepEqual(test.output, test.expected) {
-			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
-		}
-	}
+	outputTestResult(tests, t)
 }
