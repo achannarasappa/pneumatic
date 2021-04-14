@@ -281,3 +281,24 @@ func TakeLast[TValue any](count int) func([]TValue) []TValue {
 		return data[(data_length-count):]
 	}
 }
+
+// Flatten creates a new slice where one level of nested elements are unnested
+//
+// Parameters
+//
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: unnested list slice of elements
+//
+func Flatten[TValue any](data [][]TValue) []TValue {
+
+	out := make([]TValue, 0)
+
+	for _, v := range data {
+		out = append(out, v...)
+	}
+
+	return out
+}

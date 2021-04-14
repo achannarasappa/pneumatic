@@ -248,3 +248,16 @@ func TestTakeLast(t *testing.T) {
 
 	outputTestResult(tests, t)
 }
+
+func TestFlatten(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should unnest one level of elements in a slice",
+			output:      s.Flatten[int]([][]int{{6, 5, 3}}),
+			expected:    []int{6, 5, 3},
+		},
+	}
+
+	outputTestResult(tests, t)
+}
