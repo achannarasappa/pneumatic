@@ -373,3 +373,29 @@ func Prepend[TValue any](element TValue) func([]TValue) []TValue {
 		return out
 	}
 }
+
+// Partition splits elements into two groups - one where the predicate is satisfied and one where the predicate is not
+//
+// Parameters
+//
+//  • predicate: function that is called against each element returning true or false
+//  • data: list of elements
+//
+// Return Value
+//
+//  • result: slice with two nested slices where the first are all elements satisfying the predicate and the second where all elements do not satisfy the predicate 
+//
+func Partition[TValue any](predicate func(TValue) bool) func([]TValue) [][]TValue {
+	return func(data []TValue) [][]TValue {
+		outTrue := make([]TValue, 0)
+		outFalse := make([]TValue, 0)
+		for _, v := range data {
+			if predicate(v) {
+				outTrue = append(outTrue, v)
+			} else {
+				outFalse = append(outFalse, v)
+			}
+		}
+		return [][]TValue{outTrue, outFalse}
+	}
+}

@@ -300,3 +300,16 @@ func TestPrepend(t *testing.T) {
 
 	outputTestResult(tests, t)
 }
+
+func TestPartition(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should add an element to the end of the slice",
+			output:      s.Partition(func(v int) bool { return v > 50 })([]int{453, 3, 62, 32, 1}),
+			expected:    [][]int{[]int{453, 62}, []int{3, 32, 1}},
+		},
+	}
+
+	outputTestResult(tests, t)
+}
