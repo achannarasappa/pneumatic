@@ -1,0 +1,70 @@
+package maps_test
+
+import (
+	"reflect"
+	"testing"
+
+	m "github.com/achannarasappa/pneumatic/maps"
+)
+
+type TestCase struct {
+	description string
+	input       interface{}
+	output      interface{}
+	expected    interface{}
+}
+
+type Element1 struct {
+	Key   string
+	Value string
+}
+
+type Element2 struct {
+	Token string
+}
+
+func outputTestResult(tests []TestCase, t *testing.T) {
+	for _, test := range tests {
+		if !reflect.DeepEqual(test.output, test.expected) {
+			t.Errorf("\n\n%s\n\nOutput: %v\nExpected: %v\n\n", test.description, test.output, test.expected)
+		}
+	}
+}
+
+func TestValues(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return the values of a map",
+			output: m.Values(map[string]string{
+				"Key":   "k1",
+				"Value": "v1",
+			}),
+			expected: []string{
+				"k1",
+				"v1",
+			},
+		},
+	}
+
+	outputTestResult(tests, t)
+}
+
+func TestKeys(t *testing.T) {
+
+	tests := []TestCase{
+		{
+			description: "It should return the keyes of a map",
+			output: m.Keys(map[string]string{
+				"Key":   "k1",
+				"Value": "v1",
+			}),
+			expected: []string{
+				"Key",
+				"Value",
+			},
+		},
+	}
+
+	outputTestResult(tests, t)
+}
