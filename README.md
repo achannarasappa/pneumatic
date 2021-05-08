@@ -1,6 +1,6 @@
 # pneumatic
 
-Pneumatic is a type-safe functional library for Go that uses Go 1.18 generics
+Pneumatic is a practical type-safe functional library for Go that uses Go 1.18 generics
 
 ## Usage
 
@@ -53,11 +53,32 @@ Run automated tests:
 find . -maxdepth 1 -type d \( ! -name .\* \) -exec bash -c "cd '{}' && go tool go2go test" \;
 ```
 
-## Development Status
+## Development Status & Roadmap
 
-**Experimental** - this library is for experimental purposes only until a beta Go 1.18 compiler is released
+**Experimental** (Pre-alpha) - for experimental purposes only until a beta Go 1.18 compiler is released
 
 The vision is to evolve `pneumatic` to match the latest implementation of Go generics until the final release in Go 1.18. The API is expected to undergo changes until the v1.0.0 release which will coincide with release of Go 1.18.
+
+* Experimental (Pre-alpha, Alpha releases)
+  * Internal Tasks
+    * Design - refine and expand API with community feedback
+    * Implementation - build a feature set that covers most common use cases and enables development of more specialized use cases
+    * Documentation - cover all implemented functions with basic godoc-compatible documentation, create examples for common use cases that demonstrate end user value
+    * Community - validate hypothesis that there is community interest in a Go functional programming library, draft contributing guidelines, establish feature proposal, design, review, acceptance process and criteria
+    * Testing - cover major code pathways and all functions with at least one test
+  * External Milestones
+    * Release a dev build of Go 1.18 that includes generics
+* Refinement (Beta, release candidate releases)
+  * Internal Tasks
+    * Design - continue to gather community feedback, finalize API and feature set for GA release
+    * Documentation - publish to go.pkg.dev and update documentation for clarity and formatting
+    * Automation & tooling - improve automation of dev lifecycle
+    * Testing - increase code coverage to 100%, implement more ergonomic testing tooling
+    * Performance - baseline performance benchmarks, identify opportunities to improve performance
+  * External Milestones
+    * Stable release of generics in Go 1.18
+* Stable (General Availability release)
+  * Internal Milestones - TBD
 
 ### Known Tooling Issues
 
@@ -75,15 +96,7 @@ There are many utility and functional programming libraries already for Go but t
 
 * Type safety - when building utility functions in Go <=1.17, developers have the options of making their implementation use case specific or using [type assertions](https://golang.org/ref/spec#Type_assertions) or [reflection](https://golang.org/pkg/reflect/) which can lead to panics at runtime and other unexpected behavior
   * Existing utility libraries typically rely on type assertions which pose a serious risk to any workload that can not tolerate a runtime panic (e.g. production applications)
-* Functional-first - `pneumatic`'s data processing functions all have an arity of two and receive data as the last argument making it simpler to compose together small functions together into larger ones and promote reusability
-
-### Goals
-
-At the current **experimental** phase of the project, the goals are: 
-
-* Validate hypothesis that there is community interest in a Go functional programming library
-* Refine API with community feedback
-* Build a feature set that covers most common use cases and enables development of more specialized use cases
+* Functional-first - `pneumatic`'s functions all receive data as the last argument making it simpler to compose together small functions together into larger ones and promote reusability
 
 ### Compiler
 
