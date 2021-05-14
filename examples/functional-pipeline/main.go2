@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/achannarasappa/pneumatic/maps"
-	"github.com/achannarasappa/pneumatic/slice"
-	"github.com/achannarasappa/pneumatic/function"
+	m "github.com/achannarasappa/pneumatic/maps"
+	s "github.com/achannarasappa/pneumatic/slice"
+	f "github.com/achannarasappa/pneumatic/function"
 )
 
 type Post struct {
@@ -72,41 +72,38 @@ func getPosts(filename string) ([]Post, error) {
 
 }
 
-var getUsersWithMostPointsInEachLevel = function.Compose3[[]Post, map[string][]Post, [][]Post, []UserLevelPoints](
-	// Group posts by level
-	slice.GroupBy(func (v Post) string { return v.Level }),
-	// Covert map to values only
-	maps.Values[[]Post, string],
-	// Iterate over each nested group of posts
-	slice.Map(func (groupedPosts []Post) UserLevelPoints {
-
-		return function.Compose3[[]Post, []Post, Post, UserLevelPoints](
-			// Sort users by points
-			slice.SortBy(func (prevPost Post, nextPost Post) bool {
-				return prevPost.User.Points > nextPost.User.Points
-			}),
-			// Get top user by points
-			slice.Head[Post],
-			// Summarize user from post
-			func(post Post) UserLevelPoints {
-				return UserLevelPoints{
-					FirstName   :post.User.Name.First,
-					LastName    :post.User.Name.Last,
-					Level       :post.Level,
-					Points      :post.User.Points,
-					FriendCount :len(post.User.Friends),
-				}
-			},
-		)(groupedPosts)
-
+var getTopUser = f.Compose3[[]Post, []Post, Post, UserLevelPoints](
+	// Sort users by points
+	s.SortBy(func (prevPost Post, nextPost Post) bool {
+		return prevPost.User.Points > nextPost.User.Points
 	}),
+	// Get top user by points
+	s.Head[Post],
+	// Summarize user from post
+	func(post Post) UserLevelPoints {
+		return UserLevelPoints{
+			FirstName:   post.User.Name.First,
+			LastName:    post.User.Name.Last,
+			Level:       post.Level,
+			Points:      post.User.Points,
+			FriendCount: len(post.User.Friends),
+		}
+	},
 )
 
-// TODO: same implementation without pneumatic
+var getTopUsers = f.Compose3[[]Post, map[string][]Post, [][]Post, []UserLevelPoints](
+	// Group posts by level
+	s.GroupBy(func (v Post) string { return v.Level }),
+	// Covert map to values only
+	m.Values[[]Post, string],
+	// Iterate over each nested group of posts
+	s.Map(getTopUser),
+)
+
 func main() {
 
 	if posts, err := getPosts("/home/ani/repositories/pneumatic/data.json"); posts != nil {
-		topUsers := getUsersWithMostPointsInEachLevel(posts)
+		topUsers := getTopUsers(posts)
 		
 		fmt.Printf("%+v\n", topUsers)
 	} else {
