@@ -442,7 +442,7 @@ func Head[TValue any](data []TValue) TValue {
 	return out
 }
 
-// SplitEvery returns first element of a slice
+// SplitEvery returns elements in equal length slices
 //
 // Parameters
 //
