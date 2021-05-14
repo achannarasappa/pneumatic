@@ -6,12 +6,12 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/achannarasappa/pneumatic/function"
-	"github.com/achannarasappa/pneumatic/slice"
 	"github.com/achannarasappa/pneumatic/maps"
+	"github.com/achannarasappa/pneumatic/slice"
+	"github.com/achannarasappa/pneumatic/function"
 )
 
-type Posts struct {
+type Post struct {
 	ID            string `json:"id"`
 	Index         int    `json:"index"`
 	IsActive      bool   `json:"isActive"`
@@ -50,9 +50,9 @@ type UserLevelPoints struct {
 	FriendCount int
 }
 
-func getPosts(filename string) ([]Posts, error) {
+func getPosts(filename string) ([]Post, error) {
 
-	var posts []Posts
+	var posts []Post
 	jsonFile, err := os.Open(filename)
 	defer jsonFile.Close()
 
@@ -72,23 +72,23 @@ func getPosts(filename string) ([]Posts, error) {
 
 }
 
-var getUsersWithMostPointsInEachLevel = function.Compose3[[]Posts, map[string][]Posts, [][]Posts, []UserLevelPoints](
+var getUsersWithMostPointsInEachLevel = function.Compose3[[]Post, map[string][]Post, [][]Post, []UserLevelPoints](
 	// Group posts by level
-	slice.GroupBy(func (v Posts) string { return v.Level }),
+	slice.GroupBy(func (v Post) string { return v.Level }),
 	// Covert map to values only
-	maps.Values[[]Posts, string],
+	maps.Values[[]Post, string],
 	// Iterate over each nested group of posts
-	slice.Map(func (groupedPosts []Posts) UserLevelPoints {
+	slice.Map(func (groupedPosts []Post) UserLevelPoints {
 
-		return function.Compose3[[]Posts, []Posts, Posts, UserLevelPoints](
+		return function.Compose3[[]Post, []Post, Post, UserLevelPoints](
 			// Sort users by points
-			slice.SortBy(func (prevPost Posts, nextPost Posts) bool {
+			slice.SortBy(func (prevPost Post, nextPost Post) bool {
 				return prevPost.User.Points > nextPost.User.Points
 			}),
 			// Get top user by points
-			slice.Head[Posts],
+			slice.Head[Post],
 			// Summarize user from post
-			func(post Posts) UserLevelPoints {
+			func(post Post) UserLevelPoints {
 				return UserLevelPoints{
 					FirstName   :post.User.Name.First,
 					LastName    :post.User.Name.Last,
