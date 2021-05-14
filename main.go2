@@ -1,53 +1,117 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
 
 	"github.com/achannarasappa/pneumatic/function"
 	"github.com/achannarasappa/pneumatic/slice"
+	"github.com/achannarasappa/pneumatic/maps"
 )
 
-type Quote struct {
-	Symbol   string
-	Currency string
-	Price    float64
+type Posts struct {
+	ID            string `json:"id"`
+	Index         int    `json:"index"`
+	IsActive      bool   `json:"isActive"`
+	IsVerified    bool   `json:"isVerified"`
+	User          User   `json:"user"`
+	Email         string `json:"email"`
+	Level         string `json:"level"`
+	Text          string `json:"text"`
+	CreatedAt     string `json:"created_at"`
+	Greeting      string `json:"greeting"`
+	Favoritefruit string `json:"favoriteFruit"`
 }
 
-type Token struct {
-	ID    string
-	Price float64
+type User struct {
+	Points  int      `json:"points"`
+	Name    Name     `json:"name"`
+	Friends []Friend `json:"friends"`
+	Company string   `json:"company"`
 }
 
-var quotes = []Quote{
-	{
-		Symbol:   "ABC",
-		Currency: "USD",
-		Price:    1.0,
-	},
-	{
-		Symbol:   "XYZ",
-		Currency: "USD",
-		Price:    2.0,
-	},
+type Name struct {
+	First string `json:"first"`
+	Last  string `json:"last"`
 }
 
+type Friend struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type UserLevelPoints struct {
+	FirstName   string
+	LastName    string
+	Level       string
+	Points      int
+	FriendCount int
+}
+
+func getPosts(filename string) ([]Posts, error) {
+
+	var posts []Posts
+	jsonFile, err := os.Open(filename)
+	defer jsonFile.Close()
+
+	if err != nil {
+		return nil, err
+	}
+
+	byteValue, err := ioutil.ReadAll(jsonFile)
+
+	if err != nil {
+		return nil, err
+	}
+
+	json.Unmarshal(byteValue, &posts)
+
+	return posts, nil
+
+}
+
+var getUsersWithMostPointsInEachLevel = function.Compose3[[]Posts, map[string][]Posts, [][]Posts, []UserLevelPoints](
+	// Group posts by level
+	slice.GroupBy(func (v Posts) string { return v.Level }),
+	// Covert map to values only
+	maps.Values[[]Posts, string],
+	// Iterate over each nested group of posts
+	slice.Map(func (groupedPosts []Posts) UserLevelPoints {
+
+		return function.Compose3[[]Posts, []Posts, Posts, UserLevelPoints](
+			// Sort users by points
+			slice.SortBy(func (prevPost Posts, nextPost Posts) bool {
+				return prevPost.User.Points > nextPost.User.Points
+			}),
+			// Get top user by points
+			slice.Head[Posts],
+			// Summarize user from post
+			func(post Posts) UserLevelPoints {
+				return UserLevelPoints{
+					FirstName   :post.User.Name.First,
+					LastName    :post.User.Name.Last,
+					Level       :post.Level,
+					Points      :post.User.Points,
+					FriendCount :len(post.User.Friends),
+				}
+			},
+		)(groupedPosts)
+
+	}),
+)
+
+// TODO: same implementation without pneumatic
 func main() {
 
-	fn0 := slice.Map(func(v Quote) Quote {
-		v.Price += 1.0
-		return v
-	})
+	if posts, err := getPosts("/home/ani/repositories/pneumatic/data.json"); posts != nil {
+		topUsers := getUsersWithMostPointsInEachLevel(posts)
+		
+		fmt.Printf("%+v\n", topUsers)
+	} else {
+		fmt.Printf("%+v\n", err)
+	}
 
-	fn2 := slice.Map(func(q Quote) Token {
-		return Token{
-			ID:    q.Currency + "-" + q.Symbol,
-			Price: q.Price,
-		}
-	})
-
-	out := function.Compose3[[]Quote, []Quote, []Quote, []Token](fn0, fn0, fn2)(quotes)
-
-	fmt.Printf("%+v\n", fn0(quotes))
-	fmt.Printf("%+v\n", out)
 	fmt.Printf("hello, world\n")
 }
