@@ -41,13 +41,14 @@ ln -s ./pneumatic $GOROOT/src/github.com/achannarasappa
 
 go2go [setup instructions](https://go.googlesource.com/go/+/refs/heads/dev.go2go/README.go2go.md)
 
-### Testing
+### Usage
 
 Example script that demonstrates some of what is possible with `pneumatic`:
 ```sh
-go tool go2go translate ./**/*.go2 && go tool go2go run main.go2
+go tool go2go translate ./**/*.go2 && go tool go2go run examples/functional-pipeline/main.go2
 ```
 
+### Tests
 Run automated tests:
 ```sh
 find . -maxdepth 1 -type d \( ! -name .\* \) -exec bash -c "cd '{}' && go tool go2go test" \;
