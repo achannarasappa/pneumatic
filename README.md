@@ -22,10 +22,10 @@ git checkout dev.go2go
 
 2. Update `go` command to point to go2go
 ```sh
-export GOROOT="$HOME/go2"
+export GOROOT="$HOME/repositories/go2"
 export PATH="$PATH:$GOROOT/bin"
 
-alias go='$HOME/go2/bin/go'
+alias go='$HOME/repositories/go2/bin/go'
 ```
 
 3. Clone pneumatic
@@ -47,6 +47,8 @@ Example script that demonstrates some of what is possible with `pneumatic`:
 ```sh
 go tool go2go translate ./**/*.go2 && go tool go2go run examples/functional-pipeline/main.go2
 ```
+
+Note: The path to the data file will need to be replaced in order for the example to work. Issues with go path and go2go require this manual step
 
 ### Tests
 Run automated tests:
