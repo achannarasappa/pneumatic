@@ -102,7 +102,7 @@ var getTopUsers = f.Compose3[[]Post, map[string][]Post, [][]Post, []UserLevelPoi
 
 func main() {
 
-	if posts, err := getPosts("/home/ani/repositories/pneumatic/data.json"); posts != nil {
+	if posts, err := getPosts("/home/ani/repositories/pneumatic/examples/data.json"); posts != nil {
 		topUsers := getTopUsers(posts)
 		
 		fmt.Printf("%+v\n", topUsers)
