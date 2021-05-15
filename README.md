@@ -33,6 +33,9 @@ var getTopUsers = Compose3[[]Post, map[string][]Post, [][]Post, []UserLevelPoint
 
 posts, _ := getPosts("data.json")
 topUsers := getTopUsers(posts)
+
+fmt.Printf("%+v\n", topUsers)
+// [{FirstName:Ferguson LastName:Bryant Level:gold Points:9294 FriendCount:3} {FirstName:Ava LastName:Becker Level:silver Points:9797 FriendCount:2} {FirstName:Hahn LastName:Olsen Level:bronze Points:9534 FriendCount:2}]
 ```
 [Example here](https://github.com/achannarasappa/pneumatic/blob/main/examples/functional-pipeline/main.go2)
 
