@@ -2,13 +2,39 @@
 
 Pneumatic is a practical type-safe functional library for Go that uses Go 1.18 generics
 
-## Usage
+```go
+var getTopUser = Compose3[[]Post, []Post, Post, UserLevelPoints](
+	// Sort users by points
+	SortBy(func (prevPost Post, nextPost Post) bool {
+		return prevPost.User.Points > nextPost.User.Points
+	}),
+	// Get top user by points
+	Head[Post],
+	// Summarize user from post
+	func(post Post) UserLevelPoints {
+		return UserLevelPoints{
+			FirstName:   post.User.Name.First,
+			LastName:    post.User.Name.Last,
+			Level:       post.Level,
+			Points:      post.User.Points,
+			FriendCount: len(post.User.Friends),
+		}
+	},
+)
 
-```sh
-go get github.com/achannarasappa/pneumatic
+var getTopUsers = Compose3[[]Post, map[string][]Post, [][]Post, []UserLevelPoints](
+	// Group posts by level
+	GroupBy(func (v Post) string { return v.Level }),
+	// Covert map to values only
+	Values[[]Post, string],
+	// Iterate over each nested group of posts
+	Map(getTopUser),
+)
+
+posts, _ := getPosts("data.json")
+topUsers := getTopUsers(posts)
 ```
-
-TBD example
+[Example here](https://github.com/achannarasappa/pneumatic/blob/main/examples/functional-pipeline/main.go2)
 
 ## Development
 
