@@ -85,6 +85,14 @@ Run automated tests:
 find . -maxdepth 1 -type d \( ! -name .\* \) -exec bash -c "cd '{}' && go tool go2go test" \;
 ```
 
+## API Reference
+
+Godoc is one of the unsupported features of go2go so there is no API reference available on pkg.go.dev but you can find each function's documentation below:
+
+* [Slice](https://github.com/achannarasappa/pneumatic/blob/main/slice/slice.go2)
+* [Map](https://github.com/achannarasappa/pneumatic/blob/main/maps/maps.go2)
+* [Function](https://github.com/achannarasappa/pneumatic/blob/main/function/function.go2)
+
 ## Development Status & Roadmap
 
 **Experimental** (Pre-alpha) - for experimental purposes only until a beta Go 1.18 compiler is released
