@@ -22,10 +22,10 @@ git checkout dev.go2go
 
 2. Update `go` command to point to go2go
 ```sh
-export GOROOT="$HOME/repositories/go2"
+export GOROOT="$HOME/go2"
 export PATH="$PATH:$GOROOT/bin"
 
-alias go='$HOME/repositories/go2/bin/go'
+alias go='$HOME/go2/bin/go'
 ```
 
 3. Clone pneumatic
