@@ -68,7 +68,7 @@ func getPosts(filename string) ([]Post, error) {
 
 }
 
-func getUsersWithMostPointsInEachLevel(posts []Post) []UserLevelPoints {
+func getTopUsers(posts []Post) []UserLevelPoints {
 
 	postsByLevel := map[string]Post{}
 	userLevelPoints := make([]UserLevelPoints, 0)
@@ -105,7 +105,7 @@ func getUsersWithMostPointsInEachLevel(posts []Post) []UserLevelPoints {
 func main() {
 
 	if posts, err := getPosts("/home/ani/repositories/pneumatic/data.json"); posts != nil {
-		topUsers := getUsersWithMostPointsInEachLevel(posts)
+		topUsers := getTopUsers(posts)
 
 		fmt.Printf("%+v\n", topUsers)
 	} else {
